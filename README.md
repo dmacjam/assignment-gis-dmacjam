@@ -16,12 +16,15 @@ Build a map-based application, which lets the user see geo-based data on a map a
 
 - [Open Street Maps](https://www.openstreetmap.org/)
 
-## My project
+## Choose the perfect school for you kid
 
-Fork this repository and fill in (either in English, or in Slovak):
+**Application description**: Showing schools on the map, each type of school has different color. Schools are sorted by the distance from selected spot and user can set maximum possible distance to school. The user can also filter schools by criminality, that was commited near school, or number of bar/pubs and casinos near school.
 
-**Application description**: `<fill in>`
+**Data source**: 
+- [Schools In England Dec 2014](http://data.bureau.opendata.arcgis.com/datasets/4dbf29eb5ee0418c874782669aecf38d_0)
+- [Criminality In The UK](https://data.police.uk/about/)
 
-**Data source**: `<fill in>`
-
-**Technologies used**: `<fill in>`
+**Technologies used**:
+- Mapbox
+- PostGIS
+- web app - Mapbox SDK
