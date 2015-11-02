@@ -35,11 +35,6 @@ Build a map-based application, which lets the user see geo-based data on a map a
 - PostGIS
 - web app - Mapbox SDK
 
-**ESPG
-- 4326 - WGS84 (GPS)
-- 3857 - Pseudo-Mercator
-- [Coordinates vs projection](http://gis.stackexchange.com/questions/48949/epsg-3857-or-4326-for-googlemaps-openstreetmap-and-leaflet)
-- 27700 - OSGB (easting, northing) 
 
 ## Installation
 ```
@@ -48,8 +43,11 @@ npm install
 npm start
 ```
 
-** TODO
+### TODO
 - ~~import OpenStreetMaps~~
 - ~~import schools data~~
 - ~~import criminality data~~
+- ~~website~~
+- ~~display map~~
+- db connection
 
