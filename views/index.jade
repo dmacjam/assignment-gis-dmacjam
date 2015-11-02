@@ -1,0 +1,16 @@
+extends layout
+
+block head
+  script(src='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.js')
+  link(rel='stylesheet', href='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.css')
+
+block content
+  //h1= title
+  //p Welcome to #{title}
+  container.fill
+    #map
+
+  script.
+    L.mapbox.accessToken = 'pk.eyJ1IjoiZG1hY2phbSIsImEiOiJjaWcyMGltYngwMG50dnNraHB3OHZ3aXI0In0.lJDHDkmW2P73JH01uJvnKw';
+    var map = L.mapbox.map('map', 'mapbox.streets')
+            .setView([40, -74.50], 9);

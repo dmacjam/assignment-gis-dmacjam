@@ -21,10 +21,35 @@ Build a map-based application, which lets the user see geo-based data on a map a
 **Application description**: Showing schools on the map, each type of school has different color. Schools are sorted by the distance from selected spot and user can set maximum possible distance to school. The user can also filter schools by criminality, that was commited near school, or number of bar/pubs and casinos near school.
 
 **Data source**: 
+- [UK OpenStreetMaps](http://download.geofabrik.de/europe/great-britain.html)
 - [Schools In England Dec 2014](http://data.bureau.opendata.arcgis.com/datasets/4dbf29eb5ee0418c874782669aecf38d_0)
+- [Education.gov.uk](http://www.education.gov.uk/edubase/home.xhtml)
+	- [Web API](http://education.data.gov.uk/)
+- [Schools in England monthly](https://www.gov.uk/government/publications/schools-in-england)
 - [Criminality In The UK](https://data.police.uk/about/)
+- [Education.data.gov](http://education.data.gov.uk/)
+- [UK postcode to lat long](http://www.freemaptools.com/download-uk-postcode-lat-lng.htm)
 
 **Technologies used**:
 - Mapbox
 - PostGIS
 - web app - Mapbox SDK
+
+**ESPG
+- 4326 - WGS84 (GPS)
+- 3857 - Pseudo-Mercator
+- [Coordinates vs projection](http://gis.stackexchange.com/questions/48949/epsg-3857-or-4326-for-googlemaps-openstreetmap-and-leaflet)
+- 27700 - OSGB (easting, northing) 
+
+## Installation
+```
+git clone
+npm install
+npm start
+```
+
+** TODO
+- ~~import OpenStreetMaps~~
+- ~~import schools data~~
+- ~~import criminality data~~
+
