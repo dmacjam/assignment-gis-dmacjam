@@ -11,3 +11,6 @@ block content
   script.
     L.mapbox.accessToken = 'pk.eyJ1IjoiZG1hY2phbSIsImEiOiJjaWcyMGltYngwMG50dnNraHB3OHZ3aXI0In0.lJDHDkmW2P73JH01uJvnKw';
     var map = L.mapbox.map('map', 'dmacjam.98eb866f').setView([51.508652, -0.151071], 6);
+    map.on('click', function(e){
+      console.debug("Latlng click", e.latlng);
+    });

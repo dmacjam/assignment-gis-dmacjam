@@ -2,7 +2,7 @@ var express = require('express');
 var pg = require('pg');
 var router = express.Router();
 
-var conString = "postgres://postgres@localhost:5432/pdt-gis";
+var config = require('../db-config');
 
 /* GET schools listing. */
 router.get('/', function(req, res, next) {
@@ -14,7 +14,7 @@ router.get('/:id', getSchool);
 
 function getSchool(req, res, next){
     console.log("Getting school");
-    pg.connect(conString, function(err, client, done) {
+    pg.connect(config.conString, function(err, client, done) {
 
         if (err) {
             return console.error('error fetching client from pool', err);

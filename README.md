@@ -49,5 +49,7 @@ npm start
 - ~~import criminality data~~
 - ~~website~~
 - ~~display map~~
-- db connection
+- ~~db connection~~
+- web interface - Angular?
+- db module
 
