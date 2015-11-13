@@ -32,3 +32,8 @@ body {
     height: 50%;
     background-color: chartreuse;
 }
+
+.scrollable {
+    overflow-y: auto;
+    overflow-x: auto;
+}
