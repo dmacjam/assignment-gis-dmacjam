@@ -36,6 +36,28 @@
     map.on('click', function(e){
         console.debug("Latlng click", e.latlng);
     });
+
+    var geoJson = {
+        "type": "FeatureCollection",
+        "features":[
+            {
+                "type": "Feature",
+                "geometry": {
+                    "type":"Point","coordinates":[-0.198112474612761,51.4819636991399]
+                },
+                "properties": {}
+            },
+            {
+                "type": "Feature",
+                "geometry": {
+                    "type":"Point","coordinates":[-0.05112474612761,51.4819636991399]
+                },
+                "properties": {}
+            }
+        ]
+    };
+    var featureLayer = L.mapbox.featureLayer(geoJson).addTo(map);
+
 </script>
 </body>
 
