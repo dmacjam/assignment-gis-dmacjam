@@ -20,13 +20,7 @@ body {
     width: 30%;
     min-height: 100%;
     max-height: 100%;
-}
-
-.pad2 {
-    padding:20px;
-    -webkit-box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    box-sizing:border-box;
+    padding:0px;
 }
 
 #detail{

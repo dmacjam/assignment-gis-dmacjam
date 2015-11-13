@@ -26,3 +26,14 @@ sidebar.directive('results', function(){
        templateUrl: htmlPath+'results.html'
    }
 });
+
+sidebar.directive('detail', function(){
+    return {
+        restrict: 'E',
+        controller: function(){
+
+        },
+        controllerAs: 'detailCtrl',
+        templateUrl: htmlPath+'detail.html'
+    }
+});
