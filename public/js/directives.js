@@ -1,11 +1,11 @@
-var sidebar = angular.module('sidebar', ['services']);
+var sidebar = angular.module('sidebar', ['services', 'utils']);
 
 var htmlPath = '../html/directives/';
 
 sidebar.directive('results', function(){
    return {
        restrict: 'E',
-       controller: function($scope, apiServices){
+       controller: function($scope, apiServices, graphicUtils){
            console.debug("MAP is", map);
            //data init
            apiServices.searchByProximity(51.505, 0.06).then(function(schools){
@@ -17,6 +17,7 @@ sidebar.directive('results', function(){
                    console.debug("showDetail() urn=", id);
                    apiServices.getSchool(id).then(function(school){
                        $scope.schoolDetail = school;
+                       graphicUtils.addSchoolToMap(school.geojson);
                    });
                }
            }

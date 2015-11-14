@@ -19,7 +19,7 @@ function getSchool(req, res, next){
         if (err) {
             return console.error('error fetching client from pool', err);
         }
-        client.query("SELECT * FROM schools WHERE urn='"+req.params.id+"'", function(err, result) {
+        client.query("SELECT *, st_asgeojson(way) as geojson FROM schools WHERE urn='"+req.params.id+"'", function(err, result) {
             done();
             if (err) {
                 return console.error('error running query', err);

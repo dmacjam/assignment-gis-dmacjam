@@ -9,7 +9,7 @@ exports.identify = function(req, res){
         if (err) {
             return console.error('error fetching client from pool', err);
         }
-        var query = "SELECT * FROM schools s " +
+        var query = "SELECT *, st_asgeojson(way) as geojson FROM schools s " +
             "WHERE st_dwithin(ST_SetSRID(ST_MakePoint("+req.query.lon+","+req.query.lat+"),4326)::geography,s.way::geography, 1000)";
         console.log("Query is:", query);
         client.query(query, function(err, result) {

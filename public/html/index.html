@@ -54,11 +54,13 @@
         ]
     };
     var featureLayer = L.mapbox.featureLayer(geoJson).addTo(map);
+    featureLayer.setGeoJSON({"features":[]});
 
 </script>
 <script src="../js/app.js"></script>
 <script src="../js/directives.js"></script>
 <script src="../js/services.js"></script>
+<script src="../js/utils.js"></script>
 </body>
 
 </html>
