@@ -1,8 +1,8 @@
 var express = require('express');
-var pg = require('pg');
 var router = express.Router();
 
-var config = require('../db-config');
+var dbFactory = require('../db-config');
+
 
 /* GET schools listing. */
 router.get('/', function(req, res, next) {
@@ -14,20 +14,13 @@ router.get('/:id', getSchool);
 
 function getSchool(req, res, next){
     console.log("Getting school");
-    pg.connect(config.conString, function(err, client, done) {
-
-        if (err) {
-            return console.error('error fetching client from pool', err);
-        }
-        client.query("SELECT *, st_asgeojson(way) as geojson FROM schools WHERE urn='"+req.params.id+"'", function(err, result) {
-            done();
-            if (err) {
-                return console.error('error running query', err);
-            }
-            console.log(result.rows);
-            res.send(result.rows[0]);
+    var query = "SELECT *, st_asgeojson(way) as geojson FROM schools WHERE urn=$1";
+    return dbFactory.db.one(query, req.params.id).then(function(results){
+        return res.send(results);
+    }).catch(function (e) {
+        return res.status(500, {
+            error: e
         });
-
     });
 }
 

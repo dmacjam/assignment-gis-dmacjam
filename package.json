@@ -1,6 +1,6 @@
 {
   "name": "perfect-school",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "pretest": "jshint routes",
@@ -13,6 +13,8 @@
     "express": "^4.13.3",
     "jade": "~1.11.0",
     "morgan": "~1.6.1",
+    "pg": "^4.4.3",
+    "pg-promise": "^2.3.1",
     "serve-favicon": "~2.3.0"
   },
   "jshintConfig": {

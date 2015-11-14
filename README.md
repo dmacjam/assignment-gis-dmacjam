@@ -51,6 +51,6 @@ npm start
 - ~~display map~~
 - ~~db connection~~
 - ~~web interface - Angular~~
-- db module
+- ~~db module~~
 - zoom, pan to detail
 
