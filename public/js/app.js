@@ -1,1 +1,1 @@
-var app = angular.module('schools-app', ['sidebar', 'services']);
+var app = angular.module('schools-app', ['sidebar', 'services', 'toolbar']);

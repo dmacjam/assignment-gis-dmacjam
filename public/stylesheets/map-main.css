@@ -37,3 +37,10 @@ body {
     overflow-y: auto;
     overflow-x: auto;
 }
+
+#toolbar{
+    position: absolute;
+    top: 20px;
+    right: 150px;
+    z-index: 999;
+}

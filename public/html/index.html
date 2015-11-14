@@ -10,10 +10,7 @@
     <script src="https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.js"></script>
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
-
-    <script src="../js/app.js"></script>
-    <script src="../js/directives.js"></script>
-    <script src="../js/services.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -27,18 +24,18 @@
 
 
 </div>
-<div id="map"></div>
+<div id="map">
+    <div id="toolbar">
+        <tools></tools>
+    </div>
+</div>
 
 
 <script>
     L.mapbox.accessToken = 'pk.eyJ1IjoiZG1hY2phbSIsImEiOiJjaWcyMGltYngwMG50dnNraHB3OHZ3aXI0In0.lJDHDkmW2P73JH01uJvnKw';
     var map = L.mapbox.map('map', 'dmacjam.98eb866f').setView([51.508652, -0.151071], 6);
-    map.on('click', function(e){
-        console.debug("Latlng click", e.latlng);
-    });
 
     var geoJson = {
-        "type": "FeatureCollection",
         "features":[
             {
                 "type": "Feature",
@@ -59,6 +56,9 @@
     var featureLayer = L.mapbox.featureLayer(geoJson).addTo(map);
 
 </script>
+<script src="../js/app.js"></script>
+<script src="../js/directives.js"></script>
+<script src="../js/services.js"></script>
 </body>
 
 </html>

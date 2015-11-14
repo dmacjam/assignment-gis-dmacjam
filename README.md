@@ -50,6 +50,6 @@ npm start
 - ~~website~~
 - ~~display map~~
 - ~~db connection~~
-- web interface - Angular?
+- ~~web interface - Angular~~
 - db module
 
