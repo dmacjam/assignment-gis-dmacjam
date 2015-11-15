@@ -30,5 +30,6 @@ module.exports = {
     ],
    phases: ['Primary', 'Secondary'],
    areaDistance: 5000,
+   crimeDistance: 1000,
    pageLimit: 15
 };

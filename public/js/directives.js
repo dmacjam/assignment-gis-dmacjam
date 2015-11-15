@@ -20,6 +20,9 @@ sidebar.directive('results', function(){
                        $scope.schoolDetail = school;
                        graphicUtils.addSchoolToMap(school.geojson);
                    });
+                   apiServices.getNearSchoolCrimes(id).then(function(crimes){
+                       //TODO
+                   });
                }
            }
 

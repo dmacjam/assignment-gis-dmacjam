@@ -39,3 +39,29 @@ function filterByTypeAndPhase(type, phase){
     }
     return cnd.join(" OR ");
 }
+
+exports.crimesNearSchool = function(req, res){
+    console.log("Getting nearest crimes", req.query.schoolId);
+    var returnJson = {};
+    var query = "SELECT st_asgeojson(c.way) as geojson " +
+                "FROM crimes c, schools s " +
+                "WHERE s.urn=$1 "+
+                "AND st_dwithin(c.way::geography,s.way::geography, $2)";
+    var groupQuery = "SELECT  c.crime_type as crimeType, COUNT(c.crime_type) as counts  " +
+                     "FROM crimes c, schools s " +
+                     "WHERE s.urn=$1 " +
+                     "AND st_dwithin(c.way::geography,s.way::geography, $2) " +
+                     "GROUP BY crimeType " +
+                     "ORDER BY counts DESC";
+    return dbFactory.db.query(query, [req.query.schoolId, dbFactory.crimeDistance]).then(function(results){
+        returnJson.geojsons = results;
+        return dbFactory.db.query(groupQuery, [req.query.schoolId, dbFactory.crimeDistance]).then(function(groupResults){
+            returnJson.crimes = groupResults;
+            return res.send(returnJson);
+        });
+    }).catch(function (e) {
+        return res.status(500, {
+            error: e
+        });
+    });
+};

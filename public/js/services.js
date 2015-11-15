@@ -4,7 +4,8 @@ services.factory('apiServices', ['$http', '$q', '$log', function($http, $q, $log
 
    var service = {
        searchByProximity: searchByProximity,
-       getSchool: getSchool
+       getSchool: getSchool,
+       getNearSchoolCrimes: getNearSchoolCrimes
    };
 
    return service;
@@ -13,7 +14,7 @@ services.factory('apiServices', ['$http', '$q', '$log', function($http, $q, $log
         var deferred = $q.defer();
         var request = {
             method: 'GET',
-            url: '/api/identify',
+            url: '/api/schools/identify',
             params: {
                 lat: lat,
                 lon: long,
@@ -43,6 +44,25 @@ services.factory('apiServices', ['$http', '$q', '$log', function($http, $q, $log
             deferred.resolve(response);
         }).error(function(data, status){
             deferred.reject("Get school failed", data, status);
+        });
+
+        return deferred.promise;
+    }
+
+    function getNearSchoolCrimes(schoolId){
+        var deferred = $q.defer();
+        var request = {
+            method: 'GET',
+            url: '/api/crimes/identify',
+            params: {
+                schoolId: schoolId
+            }
+        };
+        $http(request).success(function(response){
+            console.debug("Get near school crimes OK");
+            deferred.resolve(response);
+        }).error(function(data, status){
+            deferred.reject("Get near school crimes", data, status);
         });
 
         return deferred.promise;
