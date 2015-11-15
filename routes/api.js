@@ -43,7 +43,7 @@ function filterByTypeAndPhase(type, phase){
 exports.crimesNearSchool = function(req, res){
     console.log("Getting nearest crimes", req.query.schoolId);
     var returnJson = {};
-    var query = "SELECT st_asgeojson(c.way) as geojson " +
+    var query = "SELECT crime_type, st_asgeojson(c.way) as geojson " +
                 "FROM crimes c, schools s " +
                 "WHERE s.urn=$1 "+
                 "AND st_dwithin(c.geog,s.geog, $2)";

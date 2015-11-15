@@ -20,11 +20,8 @@ sidebar.directive('results', function(){
                    console.debug("showDetail() urn=", id);
                    apiServices.getSchool(id).then(function(school){
                        $scope.schoolDetail = school;
-                       graphicUtils.addSchoolToMap(school.geojson);
-                   });
-                   apiServices.getNearSchoolCrimes(id).then(function(crimes){
-                       $scope.crimeTypes = crimes.crimes;
-                       $scope.crimesCount = crimes.totalCount;
+                       graphicUtils.addSchoolToMap(school);
+                       graphicUtils.clearCrimes();
                    });
                }
            }
@@ -39,7 +36,7 @@ sidebar.directive('results', function(){
 sidebar.directive('detail', function(){
     return {
         restrict: 'E',
-        controller: function(){
+        controller: function($scope, apiServices, graphicUtils){
             this.attributes = {
                 "est_name": "Name",
                 "est_type": "Type",
@@ -58,6 +55,14 @@ sidebar.directive('detail', function(){
                 "admission_policy": "Admission policy",
                 "religion": "Religion",
                 "gender": "Gender"
+            };
+
+            this.getCrimeTypes = function(){
+                apiServices.getNearSchoolCrimes($scope.schoolDetail.urn).then(function(crimes){
+                    $scope.crimeTypes = crimes.crimes;
+                    $scope.crimesCount = crimes.totalCount;
+                    graphicUtils.addCrimesToMap(crimes.geojsons);
+                });
             }
         },
         controllerAs: 'detailCtrl',
@@ -65,7 +70,7 @@ sidebar.directive('detail', function(){
     }
 });
 
-var toolbar = angular.module('toolbar', ['services']);
+var toolbar = angular.module('toolbar', ['services', 'utils']);
 
 toolbar.directive('tools', function(){
     return {
@@ -139,7 +144,7 @@ toolbar.directive('settings', function(){
 toolbar.directive('search', function(){
    return {
        restrict: 'E',
-       controller: function($scope, $http){
+       controller: function($scope, $http, graphicUtils){
 
            this.querySchool = function(query){
                 return $http({
@@ -157,6 +162,9 @@ toolbar.directive('search', function(){
            this.onSelect = function(item){
                console.debug("Search select", item);
                $scope.schoolDetail = item;
+               graphicUtils.addSchoolToMap(item);
+               $scope.crimeTypes = null;
+               graphicUtils.clearCrimes();
            };
        },
        controllerAs: 'searchCtrl',

@@ -5,7 +5,8 @@ services.factory('apiServices', ['$http', '$q', '$log', function($http, $q, $log
    var service = {
        searchByProximity: searchByProximity,
        getSchool: getSchool,
-       getNearSchoolCrimes: getNearSchoolCrimes
+       getNearSchoolCrimes: getNearSchoolCrimes,
+       getSchoolByName: getSchoolByName
    };
 
    return service;
@@ -63,6 +64,25 @@ services.factory('apiServices', ['$http', '$q', '$log', function($http, $q, $log
             deferred.resolve(response);
         }).error(function(data, status){
             deferred.reject("Get near school crimes", data, status);
+        });
+
+        return deferred.promise;
+    }
+
+    function getSchoolByName(name){
+        var deferred = $q.defer();
+        var request = {
+            url: '/api/schools',
+            method: 'GET',
+            params: {
+                name: name
+            }
+        };
+        $http(request).success(function(response){
+            console.debug("Get school by name OK");
+            deferred.resolve(response);
+        }).error(function(data, status){
+            deferred.reject("Get school by name", data, status);
         });
 
         return deferred.promise;

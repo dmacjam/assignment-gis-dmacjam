@@ -2,16 +2,42 @@ var utils = angular.module('utils', ['services']);
 
 utils.factory('graphicUtils', function(apiServices){
    var graphicUtils = {
-       addSchoolToMap: addSchoolToMap
+       addSchoolToMap: addSchoolToMap,
+       addCrimesToMap: addCrimesToMap,
+       clearCrimes: clearCrimes
    };
    return graphicUtils;
 
-   function addSchoolToMap(geometry){
+   function addSchoolToMap(school){
        var geojson = createGeojson();
-       geojson.features.push(createFeature(JSON.parse(geometry)));
-       console.debug("Adding to map", geometry, geojson);
+       var properties = {
+           'title': school.est_name,
+           "marker-size": "medium",
+           "marker-symbol": "star",
+           "marker-color": '#00f'
+       };
+       console.debug("School geojson", school.geojson);
+       geojson.features.push(createFeature(JSON.parse(school.geojson), properties ));
+       console.debug("Adding to map", school.geojson, geojson);
        featureLayer.setGeoJSON(geojson);
    }
+
+    function addCrimesToMap(geojsons){
+        var geojson = createGeojson();
+
+        for(var i=0; i< geojsons.length; i++){
+            var properties = {
+                "marker-size": "medium",
+                "marker-symbol": "star",
+                "marker-color": '#0f0',
+                "title": geojsons[i].crime_type
+            };
+            console.debug("i geojson", properties);
+            geojson.features.push(createFeature(JSON.parse(geojsons[i].geojson), properties));
+        }
+        console.debug("GEOJSON", geojson, geojson.features.length);
+        crimesFeatureLayer.setGeoJSON(geojson);
+    }
 
    function createGeojson() {
        return {"features": []};
@@ -21,8 +47,12 @@ utils.factory('graphicUtils', function(apiServices){
        return {
            "type": "Feature",
            "geometry": geometry,
-           "properties": {}
+           "properties": properties
        };
    }
+
+   function clearCrimes(){
+       crimesFeatureLayer.setGeoJSON({"features":[]});
+   };
 
 });

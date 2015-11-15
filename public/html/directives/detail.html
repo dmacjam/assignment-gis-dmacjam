@@ -1,10 +1,18 @@
 <p ng-show="!schoolDetail"><b>School detail</b></p>
+
 <table class="table table-condensed table-bordered">
     <tr ng-repeat="(attr, value) in detailCtrl.attributes" ng-show="schoolDetail[attr]">
         <td>{{value}}</td>
         <td>{{schoolDetail[attr]}}</td>
     </tr>
 </table>
+
+<div class="btn-group" role="group" ng-show="schoolDetail">
+    <button ng-click="detailCtrl.getCrimeTypes()"
+            type="button" class="btn btn-default toolbar-btn" data-toggle="tooltip" data-placement="bottom"
+            title="Load and show crimes" data-toggle="button" style="width: 32px; height: 32px;"><i class="fa fa-street-view"></i>
+    </button>
+</div>
 
 <p ng-show="crimeTypes"><b>Crimes near school({{crimesCount}})</b></p>
 <table class="table table-hover table-condensed table-bordered" ng-show="crimeTypes">
