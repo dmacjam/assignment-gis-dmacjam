@@ -81,6 +81,7 @@ update schools set geom_mercator=ST_Transform(geom, 900913);
 SELECT est_type, count(*) FROM schools GROUP BY est_type;
 SELECT education_phase, count(*) FROM schools GROUP BY education_phase;
 
+--est_type
 (
   SELECT * FROM schools 
   WHERE est_type in ('Higher Education Institutions')
@@ -102,6 +103,13 @@ SELECT education_phase, count(*) FROM schools GROUP BY education_phase;
 ) as academies
 
 (
+  SELECT * FROM schools
+  WHERE est_type in ('Further Education', 'Sixth Form Centres')
+) as college
+
+--education phase
+
+(
   SELECT * FROM schools 
   WHERE education_phase in ('Primary')
 ) as primary_school
@@ -112,6 +120,49 @@ SELECT education_phase, count(*) FROM schools GROUP BY education_phase;
 ) as secondary_school
 
 (
-  SELECT * FROM schools 
-  WHERE est_type in ('Further Education', 'Sixth Form Centres')
-) as college
+  SELECT * FROM schools
+  WHERE education_phase in ('Nursery')
+) as nursery_school
+
+-- create school types
+
+DROP TABLE school_types;
+CREATE TABLE school_types
+(
+    id bigint PRIMARY KEY,
+    type_name text
+)WITH (
+   OIDS=FALSE
+ );
+ ALTER TABLE school_types
+   OWNER TO gisuser;
+
+INSERT INTO school_types VALUES
+(1,'Primary'),
+(2,'Secondary')
+
+
+
+DROP TABLE school_phases;
+CREATE TABLE school_phases
+(
+    id bigint PRIMARY KEY,
+    phase_name text,
+    contains text[]
+)WITH (
+   OIDS=FALSE
+ );
+ ALTER TABLE school_phases
+   OWNER TO gisuser;
+
+
+INSERT INTO school_phases VALUES
+(1,'University', ARRAY['Higher Education Institutions']),
+(2,'Free', ARRAY['Free Schools Special','Free Schools - 16-19','Free Schools','Free Schools - Alternative Provision',
+                         'Studio Schools', 'University Technical College']),
+(3,'Academy', ARRAY['Academy 16-19 Converter','Academy 16-19 Sponsor Led',
+                                        'Academy Alternative Provision Converter','Academy Alternative Provision Sponsor Led',
+                                        'Academy Converter', 'Academy Special Converter',
+                                        'Academy Special Sponsor Led', 'Academy Sponsor Led']),
+(4,'College', ARRAY['Further Education', 'Sixth Form Centres'])
+
