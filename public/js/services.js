@@ -9,14 +9,16 @@ services.factory('apiServices', ['$http', '$q', '$log', function($http, $q, $log
 
    return service;
 
-    function searchByProximity(lat, long){
+    function searchByProximity(lat, long, type, phase){
         var deferred = $q.defer();
         var request = {
             method: 'GET',
             url: '/api/identify',
             params: {
                 lat: lat,
-                lon: long
+                lon: long,
+                type: type,
+                phase: phase
             }
         };
         $http(request).success(function(response){

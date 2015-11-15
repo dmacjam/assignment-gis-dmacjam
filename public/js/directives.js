@@ -1,4 +1,4 @@
-var sidebar = angular.module('sidebar', ['services', 'utils', 'checklist-model']);
+var sidebar = angular.module('sidebar', ['services', 'utils']);
 
 var htmlPath = '../html/directives/';
 
@@ -12,24 +12,8 @@ sidebar.directive('results', function(){
                $scope.schools = schools;
            });
 
-           this.allTypes = [
-               {text: 'Uni', contains: ['Higher Education Institutions']},
-               {text: 'Free school', contains: ['Free Schools Special','Free Schools - 16-19',
-                                                'Free Schools','Free Schools - Alternative Provision',
-                                                'Studio Schools', 'University Technical College']},
-               {text: 'Academy', contains: ['Academy 16-19 Converter','Academy 16-19 Sponsor Led',
-                                            'Academy Alternative Provision Converter','Academy Alternative Provision Sponsor Led',
-                                            'Academy Converter', 'Academy Special Converter',
-                                            'Academy Special Sponsor Led', 'Academy Sponsor Led']},
-               {text: 'Primary', contains: ['Primary']},
-               {text: 'Secondary', contains: ['Secondary']},
-               {text: 'College', contains: ['Further Education', 'Sixth Form Centres']}
-           ];
-
-           $scope.checkedTypes = [this.allTypes[0]];
-
            this.showDetail = function(id){
-               console.debug("Types is", $scope.checkedTypes);
+               console.debug("Types is", $scope.checkedType, $scope.checkedPhase);
                if(id){
                    console.debug("showDetail() urn=", id);
                    apiServices.getSchool(id).then(function(school){
@@ -67,7 +51,7 @@ toolbar.directive('tools', function(){
                 console.debug("Btn clicker");
                 map.addOneTimeEventListener('click', function(e){
                     console.debug("Latlng click", e.latlng);
-                    apiServices.searchByProximity(e.latlng.lat, e.latlng.lng).then(function(schools){
+                    apiServices.searchByProximity(e.latlng.lat, e.latlng.lng, $scope.checkedType, $scope.checkedPhase).then(function(schools){
                         $scope.schools = schools;
                     });
                 });
@@ -76,8 +60,54 @@ toolbar.directive('tools', function(){
             this.deactivateTools = function(){
                 console.debug("Deactivating identify");
             };
+
+            this.toggleSettings = function(){
+                $scope.$broadcast("toggleSettings");
+            };
         },
         controllerAs: 'toolsCtrl',
         templateUrl: htmlPath+'tools.html'
     }
+});
+
+var allPhases= [
+    {id: 0, text: 'Primary'},
+    {id: 1, text: 'Secondary'}
+];
+
+var allTypes = [
+    {id: 0, text: 'Uni'},
+    {id: 1, text: 'Free school'},
+    {id: 2, text: 'Academy'},
+    {id: 3, text: 'College'}
+];
+
+toolbar.directive('settings', function(){
+   return {
+       restrict: 'E',
+       controller: function($scope){
+           var context = this;
+           this.isShowed = false;
+           this.allTypes = allTypes;
+           this.allPhases = allPhases;
+
+           $scope.checkedType = allTypes[0].id;
+
+           $scope.$on("toggleSettings", function(event){
+               console.debug("Event tu");
+               context.isShowed = !context.isShowed;
+           });
+
+           this.phaseChanged = function () {
+               $scope.checkedType = null;
+           };
+
+           this.typeChanged = function () {
+               $scope.checkedPhase = null;
+           }
+
+       },
+       controllerAs: 'settingsCtrl',
+       templateUrl: htmlPath+'settings.html'
+   }
 });

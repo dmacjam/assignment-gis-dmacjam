@@ -44,3 +44,13 @@ body {
     right: 150px;
     z-index: 999;
 }
+
+#settingsWindow{
+    background-color: white;
+    position: absolute;
+    width: 350px;
+    height: 200px;
+    top: 60px;
+    right: 150px;
+    z-index: 999;
+}
