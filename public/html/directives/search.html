@@ -1,0 +1,9 @@
+<input type="text" placeholder="Search school" class="form-control" id="search"
+       title="Change tooltip"
+       ng-model="searchToolbarCtrl.searchQuery"
+       typeahead="c as c['est_name']
+                  for c in searchCtrl.querySchool($viewValue) | limitTo:10"
+       typeahead-min-length='3'
+       typeahead-loading="searchCtrl.loading"
+       typeahead-on-select='searchCtrl.onSelect($item)'
+       >

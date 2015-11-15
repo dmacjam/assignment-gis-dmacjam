@@ -2,9 +2,9 @@ var dbFactory = require('../db-config');
 
 exports.identify = function(req, res){
   console.log("Getting nearest schools");
-  var query = "SELECT *, st_asgeojson(way) as geojson, ST_Distance(ST_SetSRID(ST_MakePoint($1, $2),4326)::geography,s.way::geography, false) as distance " +
+  var query = "SELECT *, st_asgeojson(way) as geojson, ST_Distance(ST_SetSRID(ST_MakePoint($1, $2),4326)::geography,s.geog, false) as distance " +
       "FROM schools s " +
-      "WHERE st_dwithin(ST_SetSRID(ST_MakePoint($1, $2),4326)::geography,s.way::geography, $3) ";
+      "WHERE st_dwithin(ST_SetSRID(ST_MakePoint($1, $2),4326)::geography,s.geog, $3) ";
 
   var filter = filterByTypeAndPhase(req.query.type, req.query.phase);
   if(filter){
@@ -46,11 +46,11 @@ exports.crimesNearSchool = function(req, res){
     var query = "SELECT st_asgeojson(c.way) as geojson " +
                 "FROM crimes c, schools s " +
                 "WHERE s.urn=$1 "+
-                "AND st_dwithin(c.way::geography,s.way::geography, $2)";
+                "AND st_dwithin(c.geog,s.geog, $2)";
     var groupQuery = "SELECT  c.crime_type as crimeType, COUNT(c.crime_type) as counts  " +
                      "FROM crimes c, schools s " +
                      "WHERE s.urn=$1 " +
-                     "AND st_dwithin(c.way::geography,s.way::geography, $2) " +
+                     "AND st_dwithin(c.geog,s.geog, $2) " +
                      "GROUP BY crimeType " +
                      "ORDER BY counts DESC";
     return dbFactory.db.query(query, [req.query.schoolId, dbFactory.crimeDistance]).then(function(results){
@@ -65,4 +65,19 @@ exports.crimesNearSchool = function(req, res){
             error: e
         });
     });
+};
+
+exports.getSchoolByName = function(req, res){
+    console.log("Getting school by name", req.query.name);
+    var query = "SELECT *, st_asgeojson(way) as geojson " +
+                "FROM schools " +
+                "WHERE lower(est_name) LIKE lower('$1^%')";
+    return dbFactory.db.query(query, [req.query.name]).then(function(results){
+        return res.send(results);
+    }).catch(function (e) {
+        return res.status(500, {
+            error: e
+        });
+    });
+
 };

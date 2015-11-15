@@ -53,3 +53,13 @@ body {
     right: 150px;
     z-index: 999;
 }
+
+#search{
+    position: absolute;
+    width: 350px;
+    height: 40px;
+    top: 5px;
+    left: 50px;
+    z-index: 999;
+    visibility: visible;
+}

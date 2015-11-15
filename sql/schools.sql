@@ -166,3 +166,39 @@ INSERT INTO school_phases VALUES
                                         'Academy Special Sponsor Led', 'Academy Sponsor Led']),
 (4,'College', ARRAY['Further Education', 'Sixth Form Centres'])
 
+
+
+-- create indices
+CREATE INDEX index_way_schools ON schools(way);
+CREATE INDEX index_est_type_on_schools ON schools(est_type);
+CREATE INDEX index_est_phase_on_schools ON schools(education_phase);
+CREATE INDEX index_way_on_crimes ON crimes(way);
+CREATE INDEX index_way_on_points ON planet_osm_point(way);
+CREATE INDEX index_amenity_on_points ON planet_osm_point(amenity);
+CREATE INDEX index_name_on_schools ON schools(lower(est_name));
+
+-- create geography column
+ALTER TABLE schools ADD COLUMN geog geography(POINT, 4326);
+UPDATE schools SET geog = way::geography;
+ALTER TABLE crimes ADD COLUMN geog geography(POINT, 4326);
+UPDATE crimes SET geog = way::geography;
+CREATE INDEX index_geog_on_schools ON schools(geog);
+CREATE INDEX index_geog_on_crimes ON crimes(geog);
+
+-- http://dba.stackexchange.com/questions/102904/how-to-access-row-value-from-update-sub-query-function
+-- search with ranking, too slow
+SELECT *, (distance + crime_count + bar_count) as ranking FROM
+(with nearbySchools as(
+SELECT *, st_asgeojson(s.way) as geojson, ST_Distance(ST_SetSRID(ST_MakePoint(0.06, 51.505),4326)::geography,s.geog, false) as distance
+FROM schools s
+WHERE st_dwithin(ST_SetSRID(ST_MakePoint(0.06, 51.505),4326)::geography,s.geog, 5000)
+AND (education_phase = 'Primary')
+ORDER BY distance
+LIMIT 10
+)
+SELECT *, (SELECT COUNT(*) FROM crimes c WHERE st_dwithin(c.geog,s.geog, 1000)) as crime_count,
+(select COUNT(*) from planet_osm_point p where amenity in ('bar', 'pub', 'casino', 'gambling') AND st_dwithin(s.geog,p.way::geography, 1000)) as bar_count
+FROM nearbySchools s
+) a
+ORDER BY ranking
+

@@ -135,3 +135,31 @@ toolbar.directive('settings', function(){
        templateUrl: htmlPath+'settings.html'
    }
 });
+
+toolbar.directive('search', function(){
+   return {
+       restrict: 'E',
+       controller: function($scope, $http){
+
+           this.querySchool = function(query){
+                return $http({
+                    url: '/api/schools',
+                    method: 'GET',
+                    params: {
+                        name: query
+                    }
+                }).then(function(response){
+                    console.debug("Searching schools...", response);
+                    return response.data;
+                });
+           };
+
+           this.onSelect = function(item){
+               console.debug("Search select", item);
+               $scope.schoolDetail = item;
+           };
+       },
+       controllerAs: 'searchCtrl',
+       templateUrl: htmlPath+'search.html'
+   }
+});
