@@ -1,6 +1,33 @@
+<p ng-show="!schoolDetail"><b>School detail</b></p>
 <table class="table table-condensed table-bordered">
-    <tr ng-repeat="(key,value) in schoolDetail" ng-show="value">
-        <td>{{key}}</td>
+    <tr ng-repeat="(attr, value) in detailCtrl.attributes" ng-show="schoolDetail[attr]">
         <td>{{value}}</td>
+        <td>{{schoolDetail[attr]}}</td>
     </tr>
+</table>
+
+<p ng-show="crimeTypes"><b>Crimes near school({{crimesCount}})</b></p>
+<table class="table table-hover table-condensed table-bordered" ng-show="crimeTypes">
+    <thead>
+    <tr>
+        <td>
+            Crime type
+        </td>
+        <td>
+            Count
+        </td>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr ng-repeat="crime in crimeTypes">
+        <td>
+            {{crime["crimetype"]}}
+        </td>
+        <td>
+            {{crime["counts"]}}
+        </td>
+    </tr>
+
+    </tbody>
 </table>

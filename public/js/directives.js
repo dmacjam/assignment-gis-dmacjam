@@ -15,13 +15,16 @@ sidebar.directive('results', function(){
            this.showDetail = function(id){
                console.debug("Types is", $scope.checkedType, $scope.checkedPhase);
                if(id){
+                   $scope.schoolDetail = null;
+                   $scope.crimeTypes = null;
                    console.debug("showDetail() urn=", id);
                    apiServices.getSchool(id).then(function(school){
                        $scope.schoolDetail = school;
                        graphicUtils.addSchoolToMap(school.geojson);
                    });
                    apiServices.getNearSchoolCrimes(id).then(function(crimes){
-                       //TODO
+                       $scope.crimeTypes = crimes.crimes;
+                       $scope.crimesCount = crimes.totalCount;
                    });
                }
            }
@@ -37,7 +40,25 @@ sidebar.directive('detail', function(){
     return {
         restrict: 'E',
         controller: function(){
-
+            this.attributes = {
+                "est_name": "Name",
+                "est_type": "Type",
+                "education_phase": "Education phase",
+                "low_age": "Low age",
+                "high_age": "High age",
+                "street": "Street",
+                "locality": "Locality",
+                "town": "town",
+                "postcode": "Postcode",
+                "phone": "Phone",
+                "website": "Website",
+                "free_school_meals_percentage": "Free meals [%]",
+                "pupils_number": "Pupils",
+                "capacity": "Capacity",
+                "admission_policy": "Admission policy",
+                "religion": "Religion",
+                "gender": "Gender"
+            }
         },
         controllerAs: 'detailCtrl',
         templateUrl: htmlPath+'detail.html'

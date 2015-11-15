@@ -55,6 +55,7 @@ exports.crimesNearSchool = function(req, res){
                      "ORDER BY counts DESC";
     return dbFactory.db.query(query, [req.query.schoolId, dbFactory.crimeDistance]).then(function(results){
         returnJson.geojsons = results;
+        returnJson.totalCount = results.length;
         return dbFactory.db.query(groupQuery, [req.query.schoolId, dbFactory.crimeDistance]).then(function(groupResults){
             returnJson.crimes = groupResults;
             return res.send(returnJson);
