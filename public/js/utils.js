@@ -4,16 +4,19 @@ utils.factory('graphicUtils', function(apiServices){
    var graphicUtils = {
        addSchoolToMap: addSchoolToMap,
        addCrimesToMap: addCrimesToMap,
-       clearCrimes: clearCrimes
+       clearCrimes: clearCrimes,
+       addCurrentLocation: addCurrentLocation
    };
    return graphicUtils;
+
+   var locationMarker;
 
    function addSchoolToMap(school){
        var geojson = createGeojson();
        var properties = {
            'title': school.est_name,
-           "marker-size": "medium",
-           "marker-symbol": "star",
+           "marker-size": "large",
+           "marker-symbol": "school",
            "marker-color": '#00f'
        };
        console.debug("School geojson", school.geojson);
@@ -27,9 +30,9 @@ utils.factory('graphicUtils', function(apiServices){
 
         for(var i=0; i< geojsons.length; i++){
             var properties = {
-                "marker-size": "medium",
-                "marker-symbol": "star",
-                "marker-color": '#0f0',
+                "marker-size": "small",
+                "marker-symbol": "embassy",
+                "marker-color": '#6c6c6c',
                 "title": geojsons[i].crime_type
             };
             console.debug("i geojson", properties);
@@ -53,6 +56,19 @@ utils.factory('graphicUtils', function(apiServices){
 
    function clearCrimes(){
        crimesFeatureLayer.setGeoJSON({"features":[]});
-   };
+   }
+
+   function addCurrentLocation(lat, lng){
+       if(locationMarker){
+           map.removeLayer(locationMarker);
+       }
+       locationMarker = L.marker([lat, lng], {
+           icon: L.mapbox.marker.icon({
+               'marker-size': 'large',
+               'marker-symbol': 'marker-stroked',
+               'marker-color': '#fa0'
+           })
+       }).addTo(map);
+   }
 
 });

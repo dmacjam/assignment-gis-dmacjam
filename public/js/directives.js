@@ -75,11 +75,12 @@ var toolbar = angular.module('toolbar', ['services', 'utils']);
 toolbar.directive('tools', function(){
     return {
         restrict: 'E',
-        controller: function($scope, apiServices){
+        controller: function($scope, apiServices, graphicUtils){
             this.identify = function(){
                 console.debug("Btn clicker");
                 map.addOneTimeEventListener('click', function(e){
                     console.debug("Latlng click", e.latlng);
+                    graphicUtils.addCurrentLocation(e.latlng.lat, e.latlng.lng);
                     apiServices.searchByProximity(e.latlng.lat, e.latlng.lng, $scope.checkedType, $scope.checkedPhase).then(function(schools){
                         $scope.schools = schools;
                     });
