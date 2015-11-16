@@ -12,28 +12,27 @@ Build a map-based application, which lets the user see geo-based data on a map a
 
 - Showing bicykle roads on a map. The roads are color-coded based on the road difficulty. The user can see various lists which help her choose an appropriate road, e.g. roads that cross a river, roads that are nearby lakes, roads that pass through multiple countries, etc.
 
-## Data sources
-
-- [Open Street Maps](https://www.openstreetmap.org/)
-
 ## Choose the perfect school for you kid
 
-**Application description**: Showing schools on the map, each type of school has different color. Schools are sorted by the distance from selected spot and user can set maximum possible distance to school. The user can also filter schools by criminality, that was commited near school, or number of bar/pubs and casinos near school.
+**Application description**: Showing schools on the map, each type of school has different color.
+Schools are sorted by the distance from selected spot and user can set maximum possible distance to school.
+The user can also filter schools by criminality, that was commited near school, or number of bar/pubs and casinos near school.
 
-**Data source**: 
+**Data source**:
+- [Open Street Maps](https://www.openstreetmap.org/)
 - [UK OpenStreetMaps](http://download.geofabrik.de/europe/great-britain.html)
 - [Schools In England Dec 2014](http://data.bureau.opendata.arcgis.com/datasets/4dbf29eb5ee0418c874782669aecf38d_0)
 - [Education.gov.uk](http://www.education.gov.uk/edubase/home.xhtml)
 	- [Web API](http://education.data.gov.uk/)
 - [Schools in England monthly](https://www.gov.uk/government/publications/schools-in-england)
 - [Criminality In The UK](https://data.police.uk/about/)
-- [Education.data.gov](http://education.data.gov.uk/)
-- [UK postcode to lat long](http://www.freemaptools.com/download-uk-postcode-lat-lng.htm)
 
 **Technologies used**:
-- Mapbox
+- Mapbox.js
+- Mapbox API
 - PostGIS
-- web app - Mapbox SDK
+- Express.js
+- Angular.js
 
 
 ## Installation

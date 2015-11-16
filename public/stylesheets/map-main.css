@@ -47,8 +47,8 @@ body {
 #settingsWindow{
     background-color: rgba(255, 255, 255, 0.9);
     position: absolute;
-    width: 350px;
-    height: 200px;
+    width: 200px;
+    height: 250px;
     top: 52px;
     right: 150px;
     z-index: 999;
