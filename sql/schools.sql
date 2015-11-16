@@ -209,3 +209,13 @@ WHERE s.urn=$1
 AND p.amenity IN ('bar', 'pub', 'casino', 'gambling')
 AND st_dwithin(s.geog,p.geog, 1000)
 
+-- fulltext search
+SELECT *
+FROM schools s
+WHERE to_tsvector('english',s.est_name) @@ to_tsquery('School & LOndon')
+
+create index index_ts_name_on_schools on schools using gin(to_tsvector('english', est_name))
+
+SELECT *, st_asgeojson(way) as geojson FROM schools WHERE to_tsvector('english',est_name) @@ to_tsquery('london & school')
+OR lower(est_name) LIKE lower('london')
+

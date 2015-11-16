@@ -26,7 +26,7 @@ sidebar.directive('results', function(){
 
            $scope.$watch('schools', function() {
                $scope.resultsError = null;
-               if($scope.schools.length === 0){
+               if($scope.schools && $scope.schools.length === 0){
                    $scope.resultsError = "No search results.";
                }
                $scope.selected = null;
@@ -124,10 +124,6 @@ toolbar.directive('tools', function(){
                 });
             };
 
-            this.deactivateTools = function(){
-                console.debug("Deactivating identify");
-            };
-
             this.toggleSettings = function(){
                 $scope.$broadcast("toggleSettings");
             };
@@ -163,7 +159,6 @@ toolbar.directive('settings', function(){
            $scope.checkedPhase = allPhases[0].id;
 
            $scope.$on("toggleSettings", function(event){
-               console.debug("Event tu");
                context.isShowed = !context.isShowed;
            });
 
@@ -187,11 +182,13 @@ toolbar.directive('search', function(){
        controller: function($scope, $http, graphicUtils){
 
            this.querySchool = function(query){
-                return $http({
+               var parsedQuery = query.split(" ");
+               console.debug("Parsed string", parsedQuery);
+               return $http({
                     url: '/api/schools',
                     method: 'GET',
                     params: {
-                        name: query
+                        name: JSON.stringify(parsedQuery)
                     }
                 }).then(function(response){
                     console.debug("Searching schools...", response);

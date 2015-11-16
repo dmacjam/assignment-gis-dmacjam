@@ -55,7 +55,7 @@ npm start
 - ~~zoom, pan to detail~~
 - ~~results table~~
 - ~~schools colors~~
-- full text
+- ~~full text~~
 - add mouse cursors
 - toggle active layers based on chosen school type
 - add legend

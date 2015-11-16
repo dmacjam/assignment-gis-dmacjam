@@ -69,10 +69,20 @@ exports.crimesNearSchool = function(req, res){
 
 exports.getSchoolByName = function(req, res){
     console.log("Getting school by name", req.query.name);
+    var parsedNames = req.query.name.split(",");
+    var names = [];
+    for(var i=0; i< parsedNames.length; i++){
+        var firstQuote = parsedNames[i].indexOf("\"");
+        var lastQuote = parsedNames[i].lastIndexOf("\"");
+        var name = parsedNames[i].substring(firstQuote+1, lastQuote);
+        names.push(name);
+    }
     var query = "SELECT *, st_asgeojson(way) as geojson " +
                 "FROM schools " +
-                "WHERE lower(est_name) LIKE lower('$1^%')";
-    return dbFactory.db.query(query, [req.query.name]).then(function(results){
+                "WHERE to_tsvector('english',est_name) @@ to_tsquery($1) " +
+                "OR lower(est_name) LIKE lower('$2^%')" +
+                "LIMIT 10";
+    return dbFactory.db.query(query, [names.join(' & '), names.join(' ')]).then(function(results){
         return res.send(results);
     }).catch(function (e) {
         return res.status(500, {
