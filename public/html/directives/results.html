@@ -1,10 +1,12 @@
-<p><b>Results</b></p>
+<div class="heading">
+    <h3 style="padding: 0px;margin: 0px;">Schools</h3>
+</div>
 
-<ul>
-    <li ng-repeat="school in schools">
-        <p>
-            <a href="" ng-click="resultsCtrl.showDetail(school.urn)">{{school.est_name}}</a>
-        </p>
-    </li>
-
-</ul>
+<div id="listings" class="listings">
+    <div class="item" ng-repeat="school in schools" ng-class="{active: $index != selected }">
+        <a class="title" href="" ng-click="resultsCtrl.showDetail(school.urn, $index);">{{school.est_name}}</a>
+        <div>{{school.est_type}}</div>
+        <div>{{school.education_phase}}</div>
+        <small>Distance: {{school.distance / 1000 | number:2 }} km.</small>
+    </div>
+</div>

@@ -37,7 +37,6 @@ utils.factory('graphicUtils', function(apiServices){
                 "marker-color": '#6c6c6c',
                 "title": geojsons[i].crime_type
             };
-            console.debug("i geojson", properties);
             geojson.features.push(createFeature(JSON.parse(geojsons[i].geojson), properties));
         }
         console.debug("GEOJSON", geojson, geojson.features.length);

@@ -1,8 +1,10 @@
-<p ng-show="!schoolDetail"><b>School detail</b></p>
+<div class="heading" ng-show="!schoolDetail">
+    <h3 style="padding: 0px;margin: 0px;">School detail</h3>
+</div>
 
 <table class="table table-condensed table-bordered">
     <tr ng-repeat="(attr, value) in detailCtrl.attributes" ng-show="schoolDetail[attr]">
-        <td>{{value}}</td>
+        <td><i><b>{{value}}</b></i></td>
         <td>{{schoolDetail[attr]}}</td>
     </tr>
 </table>

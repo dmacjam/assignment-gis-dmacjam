@@ -52,7 +52,7 @@ npm start
 - ~~db connection~~
 - ~~web interface - Angular~~
 - ~~db module~~
-- zoom, pan to detail
+- ~~zoom, pan to detail~~
 - results table
 - ~~schools colors~~
 - full text

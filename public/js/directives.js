@@ -12,20 +12,31 @@ sidebar.directive('results', function(){
                $scope.schools = schools;
            });
 
-           this.showDetail = function(id){
+           this.showDetail = function(id, index){
+               $scope.selected = index;
                console.debug("Types is", $scope.checkedType, $scope.checkedPhase);
                if(id){
-                   $scope.schoolDetail = null;
-                   $scope.crimeTypes = null;
                    console.debug("showDetail() urn=", id);
                    apiServices.getSchool(id).then(function(school){
                        $scope.schoolDetail = school;
                        graphicUtils.addSchoolToMap(school);
-                       graphicUtils.clearCrimes();
                    });
                }
-           }
+           };
 
+           $scope.$watch('schools', function() {
+               $scope.selected = null;
+           });
+
+           $scope.$watch('schoolDetail', function(){
+               $scope.crimeTypes = null;
+               graphicUtils.clearCrimes();
+           });
+
+           this.isSelected = function(index){
+                console.debug("Selected", $scope.selected, index);
+               return (index != $scope.selected);
+           };
 
        },
        controllerAs: 'resultsCtrl',
