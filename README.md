@@ -57,4 +57,6 @@ npm start
 - ~~schools colors~~
 - full text
 - add mouse cursors
+- toggle active layers based on chosen school type
+- add legend
 

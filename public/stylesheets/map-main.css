@@ -45,13 +45,16 @@ body {
 }
 
 #settingsWindow{
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.9);
     position: absolute;
     width: 350px;
     height: 200px;
-    top: 60px;
+    top: 52px;
     right: 150px;
     z-index: 999;
+    border-style: solid;
+    border-width: 1px;
+    padding: 10px;
 }
 
 #search{
@@ -87,8 +90,7 @@ body {
 }
 
 .listings {
-    height:100%;
-    padding-bottom:60px;
+
 }
 .listings .item {
     display:block;

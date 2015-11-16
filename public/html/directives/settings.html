@@ -4,6 +4,7 @@
         <label ng-repeat="phase in settingsCtrl.allPhases">
             <input type="radio" ng-model="$parent.checkedPhase" value="{{phase.id}}" ng-change="settingsCtrl.phaseChanged()">
             {{phase.text}}
+            <span style='background:#F1EEF6;'></span>
         </label>
         <br>
         <h3>Education type</h3>

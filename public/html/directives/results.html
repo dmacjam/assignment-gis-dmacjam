@@ -9,7 +9,7 @@
 <div ng-show="!schools" style="padding: 15px; padding-top: 30%;"><small>Use <i class="fa fa-street-view"></i> to mark your location or search school by name.
     <br>Click <i class="fa fa-wrench"></i> to change settings for school searching.</small></div>
 
-<div id="listings" class="listings">
+<div class="listings">
     <div class="item" ng-repeat="school in schools" ng-class="{active: $index != selected }">
         <a class="title" href="" ng-click="resultsCtrl.showDetail(school.urn, $index);">{{school.est_name}}</a>
         <div>{{school.est_type}}</div>
