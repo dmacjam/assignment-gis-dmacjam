@@ -121,7 +121,8 @@ toolbar.directive('settings', function(){
            this.allTypes = allTypes;
            this.allPhases = allPhases;
 
-           $scope.checkedType = allTypes[0].id;
+           //$scope.checkedType = allTypes[0].id;
+           $scope.checkedPhase = allPhases[0].id;
 
            $scope.$on("toggleSettings", function(event){
                console.debug("Event tu");

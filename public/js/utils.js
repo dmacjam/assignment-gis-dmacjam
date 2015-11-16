@@ -23,6 +23,8 @@ utils.factory('graphicUtils', function(apiServices){
        geojson.features.push(createFeature(JSON.parse(school.geojson), properties ));
        console.debug("Adding to map", school.geojson, geojson);
        featureLayer.setGeoJSON(geojson);
+       var latLng = featureLayer.getBounds().getCenter();
+       map.setView(latLng, 13);
    }
 
     function addCrimesToMap(geojsons){
