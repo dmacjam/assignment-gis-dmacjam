@@ -28,7 +28,7 @@ module.exports = {
             contains: ['Further Education', 'Sixth Form Centres']
         }
     ],
-   phases: ['Primary', 'Secondary'],
+   phases: ['Primary', 'Secondary', 'Nursery'],
    areaDistance: 5000,
    crimeDistance: 1000,
    pageLimit: 15,

@@ -25,6 +25,10 @@ sidebar.directive('results', function(){
            };
 
            $scope.$watch('schools', function() {
+               $scope.resultsError = null;
+               if($scope.schools.length === 0){
+                   $scope.resultsError = "No search results.";
+               }
                $scope.selected = null;
            });
 
@@ -135,7 +139,8 @@ toolbar.directive('tools', function(){
 
 var allPhases= [
     {id: 0, text: 'Primary'},
-    {id: 1, text: 'Secondary'}
+    {id: 1, text: 'Secondary'},
+    {id: 2, text: 'Nursery'}
 ];
 
 var allTypes = [

@@ -2,6 +2,10 @@
     <h3 style="padding: 0px;margin: 0px;">Schools</h3>
 </div>
 
+<div ng-show="resultsError" style="padding: 15px;">
+    {{resultsError}}
+</div>
+
 <div ng-show="!schools" style="padding: 15px; padding-top: 30%;"><small>Use <i class="fa fa-street-view"></i> to mark your location or search school by name.
     <br>Click <i class="fa fa-wrench"></i> to change settings for school searching.</small></div>
 
