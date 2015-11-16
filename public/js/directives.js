@@ -8,9 +8,9 @@ sidebar.directive('results', function(){
        controller: function($scope, apiServices, graphicUtils){
            console.debug("MAP is", map);
            //data init
-           apiServices.searchByProximity(51.505, 0.06).then(function(schools){
+/*           apiServices.searchByProximity(51.505, 0.06).then(function(schools){
                $scope.schools = schools;
-           });
+           });*/
 
            this.showDetail = function(id, index){
                $scope.selected = index;
@@ -31,6 +31,7 @@ sidebar.directive('results', function(){
            $scope.$watch('schoolDetail', function(){
                $scope.crimeTypes = null;
                graphicUtils.clearCrimes();
+               $scope.dangers = null;
            });
 
            this.isSelected = function(index){
@@ -74,7 +75,28 @@ sidebar.directive('detail', function(){
                     $scope.crimesCount = crimes.totalCount;
                     graphicUtils.addCrimesToMap(crimes.geojsons);
                 });
+            };
+
+            this.getNearbyDangers = function(){
+                apiServices.getNearSchoolDangers($scope.schoolDetail.urn).then(function(dangers){
+                    $scope.dangersCount = dangers.length;
+                    $scope.dangers = countDangersByType(dangers);
+                });
+            };
+
+            function countDangersByType(dangers){
+                var length = dangers.length;
+                var countedDangers = {};
+                for(var i=0; i< length; i++ ){
+                    if(!countedDangers[dangers[i].amenity]){
+                        countedDangers[dangers[i].amenity] = 1;
+                    }else{
+                        countedDangers[dangers[i].amenity]++;
+                    }
+                }
+                return countedDangers;
             }
+
         },
         controllerAs: 'detailCtrl',
         templateUrl: htmlPath+'detail.html'

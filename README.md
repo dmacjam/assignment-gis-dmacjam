@@ -53,7 +53,8 @@ npm start
 - ~~web interface - Angular~~
 - ~~db module~~
 - ~~zoom, pan to detail~~
-- results table
+- ~~results table~~
 - ~~schools colors~~
 - full text
+- add mouse cursors
 

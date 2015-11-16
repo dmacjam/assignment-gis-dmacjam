@@ -31,5 +31,7 @@ module.exports = {
    phases: ['Primary', 'Secondary'],
    areaDistance: 5000,
    crimeDistance: 1000,
-   pageLimit: 15
+   pageLimit: 15,
+   undesiredPlacesDistance: 1000,
+   undesiredPlaces: ['bar', 'pub', 'casino', 'gambling']
 };

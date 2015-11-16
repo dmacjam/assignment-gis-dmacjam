@@ -202,3 +202,10 @@ FROM nearbySchools s
 ) a
 ORDER BY ranking
 
+-- amenity
+SELECT p.amenity as amenity, st_asgeojson(p.way)
+FROM schools s, planet_osm_point p
+WHERE s.urn=$1
+AND p.amenity IN ('bar', 'pub', 'casino', 'gambling')
+AND st_dwithin(s.geog,p.geog, 1000)
+

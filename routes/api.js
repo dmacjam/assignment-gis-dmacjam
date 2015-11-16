@@ -79,5 +79,25 @@ exports.getSchoolByName = function(req, res){
             error: e
         });
     });
+};
+
+exports.undesiredPlacesNearSchool = function(req, res){
+    console.log("Getting undesired places near school", req.query.schoolId);
+    var query = "SELECT p.amenity as amenity, st_asgeojson(p.way) as geojson " +
+                "FROM schools s, planet_osm_point p " +
+                "WHERE s.urn=$1 " +
+                "AND st_dwithin(s.geog,p.geog, $2) " +
+                "AND p.amenity IN ($3^)";
+    var amenitiesAsPgText = [];
+    for(var i=0; i< dbFactory.undesiredPlaces.length; i++){
+        amenitiesAsPgText.push(dbFactory.pgp.as.text(dbFactory.undesiredPlaces[i]));
+    }
+    return dbFactory.db.query(query, [req.query.schoolId, dbFactory.undesiredPlacesDistance, amenitiesAsPgText.join() ]).then(function(results){
+        return res.send(results);
+    }).catch(function (e) {
+        return res.status(500, {
+            error: e
+        });
+    });
 
 };
