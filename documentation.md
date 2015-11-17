@@ -13,7 +13,7 @@ Application *Find your perfect school* in action:
 ![Screenshot](screenshot.png)
 
 The application has 2 distinct parts, which are part of this Express.js project. The client, which is a [frontend web application](#frontend) using [angular.js](https://angularjs.org/), mapbox API, mapbox.js
-and the [backend application](#backend) written in [Express.js](http://expressjs.com/), backed by PostGIS. The frontend application communicates with backend using a [REST API](#api).
+and the [backend application](#backend) written in [Express.js](http://expressjs.com/), backed by PostGIS. The frontend application communicates with backend using a [REST API](#api). Express.js dependencies can be found in the `package.json`.
 
 # Frontend
 
