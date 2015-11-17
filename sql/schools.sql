@@ -1,0 +1,221 @@
+-- Table: schools
+
+
+DROP TABLE schools;
+
+CREATE TABLE schools
+(
+  urn varchar(20) PRIMARY KEY,
+  local_authority text,
+  est_number varchar(10),
+  est_name text,
+  est_type text,
+  est_status text,
+  education_phase text,
+  low_age smallint,
+  high_age smallint,
+  sixth_form text,
+  gender text,
+  religion text,
+  admission_policy text,
+  capacity integer,
+  pupils_number integer,
+  boys_count integer,
+  girls_count integer,
+  free_school_meals_percentage text,    -- convert to real
+  ukprn varchar(20),
+  street text,
+  locality text,
+  address3 text,
+  town text,
+  county text,
+  postcode text,
+  website text,
+  phone text,
+  head_lastname text,
+  sen1 text,
+  sen2 text,
+  sen3 text,
+  urban_or_rural text,
+  easting text,
+  northing text
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE schools
+  OWNER TO gisuser;
+
+COPY schools FROM '/home/dmacjam/Downloads/edudata_processed2.csv' DELIMITERS ',' CSV HEADER;
+
+SELECT AddGeometryColumn ('schools','way',4326,'POINT',2);
+
+update schools set way=ST_Transform(ST_PointFromText('POINT('||easting||' '||northing||')',27700), 4326);
+
+(
+  SELECT * FROM schools
+) as schools
+
+SELECT est_type, count(*) FROM schools GROUP BY est_type;
+
+
+-- http://blog.retep.org/2013/04/14/converting-os-grid-coordinates-into-latlong-using-postgis/
+
+SELECT AddGeometryColumn ('schools','geom',27700,'POINT',2);
+
+update schools set geom=ST_GeomFromText('POINT('||easting||' '||northing||')',27700);
+
+alter table schools add column lat real;
+
+alter table schools add column lon real;
+
+update schools set lon=st_x(st_transform(geom,4326)), lat=st_y(st_transform(geom,4326));
+
+  
+SELECT AddGeometryColumn('schools','geom_mercator',900913, 'POINT', 2);
+
+update schools set geom_mercator=ST_Transform(geom, 900913);
+
+-- data
+
+SELECT est_type, count(*) FROM schools GROUP BY est_type;
+SELECT education_phase, count(*) FROM schools GROUP BY education_phase;
+
+--est_type
+(
+  SELECT * FROM schools 
+  WHERE est_type in ('Higher Education Institutions')
+) as universities
+
+(
+  SELECT * FROM schools 
+  WHERE est_type in ('Free Schools Special','Free Schools - 16-19',
+                    'Free Schools','Free Schools - Alternative Provision',
+                    'Studio Schools', 'University Technical College')
+) as free_schools
+
+(
+  SELECT * FROM schools 
+  WHERE est_type in ('Academy 16-19 Converter','Academy 16-19 Sponsor Led',
+                    'Academy Alternative Provision Converter','Academy Alternative Provision Sponsor Led',
+                    'Academy Converter', 'Academy Special Converter',
+                    'Academy Special Sponsor Led', 'Academy Sponsor Led')
+) as academies
+
+(
+  SELECT * FROM schools
+  WHERE est_type in ('Further Education', 'Sixth Form Centres')
+) as college
+
+--education phase
+
+(
+  SELECT * FROM schools 
+  WHERE education_phase in ('Primary')
+) as primary_school
+
+(
+  SELECT * FROM schools 
+  WHERE education_phase in ('Secondary')
+) as secondary_school
+
+(
+  SELECT * FROM schools
+  WHERE education_phase in ('Nursery')
+) as nursery_school
+
+-- create school types
+
+DROP TABLE school_types;
+CREATE TABLE school_types
+(
+    id bigint PRIMARY KEY,
+    type_name text
+)WITH (
+   OIDS=FALSE
+ );
+ ALTER TABLE school_types
+   OWNER TO gisuser;
+
+INSERT INTO school_types VALUES
+(1,'Primary'),
+(2,'Secondary')
+
+
+
+DROP TABLE school_phases;
+CREATE TABLE school_phases
+(
+    id bigint PRIMARY KEY,
+    phase_name text,
+    contains text[]
+)WITH (
+   OIDS=FALSE
+ );
+ ALTER TABLE school_phases
+   OWNER TO gisuser;
+
+
+INSERT INTO school_phases VALUES
+(1,'University', ARRAY['Higher Education Institutions']),
+(2,'Free', ARRAY['Free Schools Special','Free Schools - 16-19','Free Schools','Free Schools - Alternative Provision',
+                         'Studio Schools', 'University Technical College']),
+(3,'Academy', ARRAY['Academy 16-19 Converter','Academy 16-19 Sponsor Led',
+                                        'Academy Alternative Provision Converter','Academy Alternative Provision Sponsor Led',
+                                        'Academy Converter', 'Academy Special Converter',
+                                        'Academy Special Sponsor Led', 'Academy Sponsor Led']),
+(4,'College', ARRAY['Further Education', 'Sixth Form Centres'])
+
+
+
+-- create indices
+CREATE INDEX index_way_schools ON schools(way);
+CREATE INDEX index_est_type_on_schools ON schools(est_type);
+CREATE INDEX index_est_phase_on_schools ON schools(education_phase);
+CREATE INDEX index_way_on_crimes ON crimes(way);
+CREATE INDEX index_way_on_points ON planet_osm_point(way);
+CREATE INDEX index_amenity_on_points ON planet_osm_point(amenity);
+CREATE INDEX index_name_on_schools ON schools(lower(est_name));
+
+-- create geography column
+ALTER TABLE schools ADD COLUMN geog geography(POINT, 4326);
+UPDATE schools SET geog = way::geography;
+ALTER TABLE crimes ADD COLUMN geog geography(POINT, 4326);
+UPDATE crimes SET geog = way::geography;
+CREATE INDEX index_geog_on_schools ON schools(geog);
+CREATE INDEX index_geog_on_crimes ON crimes(geog);
+
+-- http://dba.stackexchange.com/questions/102904/how-to-access-row-value-from-update-sub-query-function
+-- search with ranking, too slow
+SELECT *, (distance + crime_count + bar_count) as ranking FROM
+(with nearbySchools as(
+SELECT *, st_asgeojson(s.way) as geojson, ST_Distance(ST_SetSRID(ST_MakePoint(0.06, 51.505),4326)::geography,s.geog, false) as distance
+FROM schools s
+WHERE st_dwithin(ST_SetSRID(ST_MakePoint(0.06, 51.505),4326)::geography,s.geog, 5000)
+AND (education_phase = 'Primary')
+ORDER BY distance
+LIMIT 10
+)
+SELECT *, (SELECT COUNT(*) FROM crimes c WHERE st_dwithin(c.geog,s.geog, 1000)) as crime_count,
+(select COUNT(*) from planet_osm_point p where amenity in ('bar', 'pub', 'casino', 'gambling') AND st_dwithin(s.geog,p.way::geography, 1000)) as bar_count
+FROM nearbySchools s
+) a
+ORDER BY ranking
+
+-- amenity
+SELECT p.amenity as amenity, st_asgeojson(p.way)
+FROM schools s, planet_osm_point p
+WHERE s.urn=$1
+AND p.amenity IN ('bar', 'pub', 'casino', 'gambling')
+AND st_dwithin(s.geog,p.geog, 1000)
+
+-- fulltext search
+SELECT *
+FROM schools s
+WHERE to_tsvector('english',s.est_name) @@ to_tsquery('School & LOndon')
+
+create index index_ts_name_on_schools on schools using gin(to_tsvector('english', est_name))
+
+SELECT *, st_asgeojson(way) as geojson FROM schools WHERE to_tsvector('english',est_name) @@ to_tsquery('london & school')
+OR lower(est_name) LIKE lower('london')
+

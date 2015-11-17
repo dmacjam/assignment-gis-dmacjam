@@ -1,0 +1,75 @@
+<html ng-app="schools-app">
+<head>
+    <title> Index </title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <link rel="stylesheet" href="/stylesheets/map-main.css"/>
+    <script src="https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <link rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'/>
+    <link rel="stylesheet" href="/stylesheets/custom-bootstrap.css"/>
+    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
+</head>
+
+<body>
+<div id="sidebar">
+    <div id="results" class="scrollable">
+        <results></results>
+    </div>
+    <div id="detail" class="scrollable">
+        <detail></detail>
+    </div>
+
+
+</div>
+<div id="map">
+    <search></search>
+    <div id="toolbar">
+        <tools></tools>
+    </div>
+    <settings></settings>
+</div>
+
+
+<script>
+    L.mapbox.accessToken = 'pk.eyJ1IjoiZG1hY2phbSIsImEiOiJjaWcyMGltYngwMG50dnNraHB3OHZ3aXI0In0.lJDHDkmW2P73JH01uJvnKw';
+    var map = L.mapbox.map('map', 'dmacjam.98eb866f').setView([51.508652, -0.151071], 6);
+
+    var geoJson = {
+        "features":[
+            {
+                "type": "Feature",
+                "geometry": {
+                    "type":"Point","coordinates":[-0.198112474612761,51.4819636991399]
+                },
+                "properties": {}
+            },
+            {
+                "type": "Feature",
+                "geometry": {
+                    "type":"Point","coordinates":[-0.05112474612761,51.4819636991399]
+                },
+                "properties": {}
+            }
+        ]
+    };
+    var featureLayer = L.mapbox.featureLayer(geoJson).addTo(map);
+    featureLayer.setGeoJSON({"features":[]});
+    var crimesFeatureLayer = L.mapbox.featureLayer().addTo(map);
+
+
+</script>
+<script src="../js/app.js"></script>
+<script src="../js/directives.js"></script>
+<script src="../js/services.js"></script>
+<script src="../js/utils.js"></script>
+<script src="../js/jqueryEvents.js"></script>
+</body>
+
+</html>

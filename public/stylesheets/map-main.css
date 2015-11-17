@@ -1,0 +1,112 @@
+body {
+    height: 100%;
+    width: 100%;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#map {
+    width:70%;
+    position:absolute;
+    left:30%;
+    min-height: 100%;
+    max-height: 100%;
+    top:0;
+    bottom:0;
+}
+
+#sidebar {
+    width: 30%;
+    min-height: 100%;
+    max-height: 100%;
+    padding:0px;
+    border-right: 1px solid rgba(0,0,0,0.40);
+}
+
+#detail{
+    height: 50%;
+}
+
+#results {
+    height: 50%;
+}
+
+.scrollable {
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+#toolbar{
+    position: absolute;
+    top: 20px;
+    right: 150px;
+    z-index: 999;
+}
+
+#settingsWindow{
+    background-color: rgba(255, 255, 255, 0.9);
+    position: absolute;
+    width: 200px;
+    height: 250px;
+    top: 52px;
+    right: 150px;
+    z-index: 999;
+    border-style: solid;
+    border-width: 1px;
+    padding: 10px;
+}
+
+#search{
+    position: absolute;
+    width: 350px;
+    height: 40px;
+    top: 5px;
+    left: 50px;
+    z-index: 999;
+    visibility: visible;
+}
+
+.heading{
+    padding: 5px 15px;
+    border-bottom: 1px solid #eee;
+    height: 35px;
+}
+
+::-webkit-scrollbar {
+    width:3px;
+    height:3px;
+    border-left:0;
+    background:rgba(0,0,0,0.1);
+}
+
+::-webkit-scrollbar-track {
+    background:none;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4b4be7;
+    border-radius:0;
+}
+
+.listings {
+
+}
+.listings .item {
+    display:block;
+    border-bottom:1px solid #eee;
+    padding:10px;
+    text-decoration:none;
+}
+.listings .item:last-child { border-bottom:none; }
+.listings .item .title {
+    display:block;
+    color: #5958e3;
+    font-weight:700;
+}
+.listings .item .title small { font-weight:400; }
+.listings .item.active .title,
+.listings .item .title:hover { color: #32c3c6; }
+.listings .item.active {
+    background-color:#f8f8f8;
+}

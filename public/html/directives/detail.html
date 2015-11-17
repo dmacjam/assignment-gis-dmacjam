@@ -1,0 +1,73 @@
+<div class="heading" ng-show="!schoolDetail">
+    <h3 style="padding: 0px;margin: 0px;">School detail</h3>
+</div>
+
+<table class="table table-condensed table-bordered">
+    <tr ng-repeat="(attr, value) in detailCtrl.attributes" ng-show="schoolDetail[attr]">
+        <td><i><b>{{value}}</b></i></td>
+        <td>{{schoolDetail[attr]}}</td>
+    </tr>
+</table>
+
+<div class="btn-group" role="group" ng-show="schoolDetail" style="padding: 10px;">
+    <button ng-click="detailCtrl.getCrimeTypes()"
+            type="button" class="btn btn-default toolbar-btn" data-toggle="tooltip" data-placement="bottom"
+            title="Load and show crimes" data-toggle="button" style="width: 32px; height: 32px;"><i class="fa fa-flag"></i>
+    </button>
+    <button ng-click="detailCtrl.getNearbyDangers()"
+            type="button" class="btn btn-default toolbar-btn" data-toggle="tooltip" data-placement="bottom"
+            title="Show nearby undesired locations" data-toggle="button" style="width: 32px; height: 32px;"><i class="fa fa-minus-circle"></i>
+    </button>
+</div>
+
+<p ng-show="crimeTypes" style="padding-left: 10px;"><b>Crimes near school ({{crimesCount}})</b></p>
+<table class="table table-hover table-condensed table-bordered" ng-show="crimeTypes">
+    <thead>
+    <tr>
+        <td>
+            <i>Crime type</i>
+        </td>
+        <td>
+            <i>Count</i>
+        </td>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr ng-repeat="crime in crimeTypes">
+        <td>
+            {{crime["crimetype"]}}
+        </td>
+        <td>
+            {{crime["counts"]}}
+        </td>
+    </tr>
+
+    </tbody>
+</table>
+
+<p ng-show="dangers" style="padding-left: 10px;"><b>Undesired locations near school ({{dangersCount}})</b></p>
+<table class="table table-hover table-condensed table-bordered" ng-show="dangers">
+    <thead>
+    <tr>
+        <td>
+            <i>Location type</i>
+        </td>
+        <td>
+            <i>Count</i>
+        </td>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr ng-repeat="(key,value) in dangers">
+        <td>
+            {{key}}
+        </td>
+        <td>
+            {{value}}
+        </td>
+    </tr>
+
+    </tbody>
+</table>

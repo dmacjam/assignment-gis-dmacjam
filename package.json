@@ -1,0 +1,46 @@
+{
+  "name": "perfect-school",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "pretest": "jshint routes",
+    "start": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.13.2",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "express": "^4.13.3",
+    "jade": "~1.11.0",
+    "morgan": "~1.6.1",
+    "pg": "^4.4.3",
+    "pg-promise": "^2.3.1",
+    "serve-favicon": "~2.3.0"
+  },
+  "jshintConfig": {
+    "undef": true,
+    "unused": true
+  },
+  "description": "Build a map-based application, which lets the user see geo-based data on a map and filter/search through it in a meaningfull way. Specify the details and build it in your language of choice. The application should have 3 components:",
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fiit-pdt/assignment-gis-dmacjam.git"
+  },
+  "keywords": [
+    "schools",
+    "open",
+    "data",
+    "uk",
+    "gov",
+    "gis",
+    "map"
+  ],
+  "author": "Jakub Macina",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fiit-pdt/assignment-gis-dmacjam/issues"
+  },
+  "homepage": "https://github.com/fiit-pdt/assignment-gis-dmacjam#readme"
+}

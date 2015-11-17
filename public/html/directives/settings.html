@@ -1,0 +1,15 @@
+<div id="settingsWindow" ng-show="settingsCtrl.isShowed">
+    <form name="myForm">
+        <h3>Education phase</h3>
+        <label ng-repeat="phase in settingsCtrl.allPhases" style="padding-left: 10px;padding-top: 10px;">
+            <input type="radio" ng-model="$parent.checkedPhase" value="{{phase.id}}" ng-change="settingsCtrl.phaseChanged()">
+            {{phase.text}}
+        </label>
+        <br>
+        <h3>Education type</h3>
+        <label ng-repeat="type in settingsCtrl.allTypes" style="padding-left: 10px;padding-top: 10px;">
+            <input type="radio" ng-model="$parent.checkedType" value="{{type.id}}" ng-change="settingsCtrl.typeChanged()">
+            {{type.text}}
+        </label>
+    </form>
+</div>

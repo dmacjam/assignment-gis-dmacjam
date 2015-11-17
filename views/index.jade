@@ -1,0 +1,23 @@
+html
+  head
+    title= title
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='description', content='')
+    meta(name='author', content='')
+    link(rel='stylesheet', href='/stylesheets/map-main.css')
+    script(src='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.js')
+    link(rel='stylesheet', href='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.css')
+    script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js")
+body
+  #sidebar.pad2
+  #map
+
+
+  script.
+    L.mapbox.accessToken = 'pk.eyJ1IjoiZG1hY2phbSIsImEiOiJjaWcyMGltYngwMG50dnNraHB3OHZ3aXI0In0.lJDHDkmW2P73JH01uJvnKw';
+    var map = L.mapbox.map('map', 'dmacjam.98eb866f').setView([51.508652, -0.151071], 6);
+    map.on('click', function(e){
+      console.debug("Latlng click", e.latlng);
+    });
